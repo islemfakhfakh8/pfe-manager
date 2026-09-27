@@ -1,11 +1,8 @@
 import axios from 'axios';
 
-const rawBaseURL = import.meta.env.VITE_API_URL ?? (import.meta.env.PROD ? '' : '/api');
-const normalizedBaseURL = typeof rawBaseURL === 'string' && /^https?:\/\//.test(rawBaseURL)
-  ? rawBaseURL.replace(/\/api\/?$/, '')
-  : rawBaseURL;
-
-const api = axios.create({ baseURL: normalizedBaseURL });
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || '/api',
+});
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('pfe_token');
