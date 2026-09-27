@@ -29,7 +29,9 @@ if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 app.use('/uploads', express.static(uploadDir));
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', service: 'PFE API' }));
+app.get('/health', (req, res) => res.json({ status: 'ok', service: 'PFE API' }));
 
+app.use('/auth', authRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/annees', anneeRoutes);
@@ -43,6 +45,7 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/admin', adminRoutes);
 
 app.use('/api', (req, res) => res.status(404).json({ error: 'Route introuvable' }));
+app.use((req, res) => res.status(404).json({ error: 'Route introuvable' }));
 
 // Gestion centrale des erreurs
 app.use((err, req, res, next) => {
